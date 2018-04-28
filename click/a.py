@@ -13,30 +13,42 @@ def get_hwnd_child(fhwnd, hwndChildList = []):
     win32gui.EnumChildWindows(fhwnd, lambda hwnd, param: param.append(hwnd), hwndChildList)
     return hwndChildList
 
-hwnd_nb = find_hwnd("#32770", "牛B硬件信息修改大师")
-hwnd_nm = find_hwnd("Qt5QWindowIcon", "MainWindow")
-
-def is_admin():
-    try:
-        return ctypes.windll.shell32.IsUserAnAdmin()
-    except:
-        return False
-if is_admin():
-    win32gui.SetActiveWindow(hwnd_nm)
-    win32gui.SetForegroundWindow(hwnd_nm)
-    left, top, right, bottom = win32gui.GetWindowRect(hwnd_nm)
-    print(left, top, right, bottom)
+def nmclick(hwnd):
+    left, top, right, bottom = win32gui.GetWindowRect(hwnd)
     x = left + (right - left) / 3
     y = top + (bottom - top) * 0.8
     win32api.SetCursorPos([int(x), int(y)])  # 为鼠标焦点设定一个位置
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
     time.sleep(0.02)
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
-    time.sleep(0.5)
-    print(111111111111111111111111111111111111111111111)
+    time.sleep(0.1)
 
-    win32gui.SetActiveWindow(hwnd_nb)
-    win32gui.SetForegroundWindow(hwnd_nb)
+def hactive(hwnd):
+    win32gui.SetActiveWindow(hwnd)
+    win32gui.SetForegroundWindow(hwnd)
+
+def is_admin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except:
+        return False
+
+
+hwnd_nb = find_hwnd("#32770", "牛B硬件信息修改大师")
+hwnd_nm = find_hwnd("Qt5QWindowIcon", "MainWindow")
+
+
+if is_admin():
+    hactive(hwnd_nm)
+    win32gui.ShowWindow(hwnd_nm, win32con.SW_RESTORE)
+    time.sleep(0.5)
+    nmclick(hwnd_nm)
+    time.sleep(0.5)
+    win32gui.ShowWindow(hwnd_nm, win32con.SW_SHOWMINIMIZED)
+    print(111111111111111111111111111111111111111111111)
+    time.sleep(1)
+
+    hactive(hwnd_nb)
 
     for hwnd in get_hwnd_child(hwnd_nb):
         if win32gui.GetWindowText(hwnd) == '一键修改':
@@ -59,19 +71,15 @@ if is_admin():
             handle_qdqd = handle_qd
 
     win32gui.PostMessage(handle_qdqd, win32con.BM_CLICK, 0, 0)
+    time.sleep(1)
     print(22222222222222222222222222222222222222222222222222222)
 
-    win32gui.SetActiveWindow(hwnd_nm)
-    win32gui.SetForegroundWindow(hwnd_nm)
-    left, top, right, bottom = win32gui.GetWindowRect(hwnd_nm)
-    print(left, top, right, bottom)
-    x = left + (right - left) / 3
-    y = top + (bottom - top) * 0.8
-    win32api.SetCursorPos([int(x), int(y)])  # 为鼠标焦点设定一个位置
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
-    time.sleep(0.02)
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
-    time.sleep(0.1)
+    hactive(hwnd_nm)
+    win32gui.ShowWindow(hwnd_nm, win32con.SW_RESTORE)
+    time.sleep(0.5)
+    nmclick(hwnd_nm)
+    time.sleep(0.5)
+    win32gui.ShowWindow(hwnd_nm, win32con.SW_SHOWMINIMIZED)
     print(3333333333333333333333333333333333333333333333333333)
 else:
     if sys.version_info[0] == 3:
@@ -141,9 +149,3 @@ else:
 # win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,0,0,0,0)
 # time.sleep(0.1)
 # print(222)
-
-
-
-
-
-
