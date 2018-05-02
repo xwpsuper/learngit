@@ -5,6 +5,8 @@ import win32api
 import win32con
 import time
 import ctypes, sys
+import json
+import requests
 
 def main_():
     def find_hwnd(hclass, htitle):
@@ -57,6 +59,18 @@ def main_():
         win32gui.ShowWindow(hwnd_nm, win32con.SW_RESTORE)
         time.sleep(0.5)
         nmclick(hwnd_nm)
+		
+        k = 0
+        j = 0
+
+        while True:
+            j = json.loads(requests.get('http://httpbin.org/ip').text)['origin']
+            if j != 0:
+                break
+            else:
+                time.sleep(0.5)
+				
+        print(j)
         time.sleep(0.5)
      #   win32gui.ShowWindow(hwnd_nm, win32con.SW_SHOWMINIMIZED)
         print(111111111111111111111111111111111111111111111)
@@ -92,7 +106,21 @@ def main_():
         win32gui.ShowWindow(hwnd_nm, win32con.SW_RESTORE)
         time.sleep(0.5)
         nmclick(hwnd_nm)
+		
+
+        while True:
+            k = json.loads(requests.get('http://httpbin.org/ip').text)['origin']
+            if k != j and k != 0:
+                break
+            else:
+                nmclick(hwnd_nm)
+                time.sleep(1)
+                nmclick(hwnd_nm)
+                time.sleep(10)
+        print(k)
+
         time.sleep(0.5)
+
     #    win32gui.ShowWindow(hwnd_nm, win32con.SW_SHOWMINIMIZED)
         print(3333333333333333333333333333333333333333333333333333)
         time.sleep(10)
