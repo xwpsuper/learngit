@@ -40,11 +40,17 @@ def main_():
     hwnd_ajjl = find_hwnd(None, "按键精灵")
 
     while True:
-
+        print(win32gui.FindWindow('MozillaWindowClass', None))
         if win32gui.FindWindow('MozillaWindowClass', None) == 0:
+            time.sleep(2)
             break
         else:
             time.sleep(0.5)
+
+    hactive(hwnd_ajjl)
+    win32gui.ShowWindow(hwnd_ajjl, win32con.SW_RESTORE)
+    win32api.keybd_event(123, 0, 0, 0)
+    win32api.keybd_event(123, 0, win32con.KEYEVENTF_KEYUP, 0)
 
     if is_admin():
         hactive(hwnd_nm)
@@ -92,8 +98,11 @@ def main_():
         time.sleep(10)
 
         hactive(hwnd_ajjl)
+        print(hwnd_ajjl)
         win32gui.ShowWindow(hwnd_ajjl, win32con.SW_RESTORE)
         win32api.keybd_event(121, 0, 0, 0)
+        print(5)
+        time.sleep(10)
 
     else:
         if sys.version_info[0] == 3:

@@ -6,3 +6,6 @@ import time
 time.sleep(3)
 win32api.keybd_event(121, 85, 0, 0)
 win32api.keybd_event(121, 85, win32con.KEYEVENTF_KEYUP, 0)
+
+time.sleep(3)
+win32api.keybd_event(0x10, 0, 0, 0)
