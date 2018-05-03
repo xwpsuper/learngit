@@ -30,6 +30,7 @@ def main_():
         win32gui.SetActiveWindow(hwnd)
         win32gui.SetForegroundWindow(hwnd)
 
+
     def is_admin():
         try:
             return ctypes.windll.shell32.IsUserAnAdmin()
@@ -42,19 +43,20 @@ def main_():
     hwnd_ajjl = find_hwnd(None, "按键精灵")
 
     while True:
-        print(win32gui.FindWindow('MozillaWindowClass', None))
         if win32gui.FindWindow('MozillaWindowClass', None) == 0:
             time.sleep(2)
             break
         else:
             time.sleep(0.5)
 
+    #控制按键精灵停止所有脚本 F12
     hactive(hwnd_ajjl)
     win32gui.ShowWindow(hwnd_ajjl, win32con.SW_RESTORE)
     win32api.keybd_event(123, 0, 0, 0)
     win32api.keybd_event(123, 0, win32con.KEYEVENTF_KEYUP, 0)
 
     if is_admin():
+        #点击牛魔按钮
         hactive(hwnd_nm)
         win32gui.ShowWindow(hwnd_nm, win32con.SW_RESTORE)
         time.sleep(0.5)
@@ -64,7 +66,10 @@ def main_():
         j = 0
 
         while True:
-            j = json.loads(requests.get('http://httpbin.org/ip').text)['origin']
+            try:
+                j = json.loads(requests.get('http://httpbin.org/ip').text)['origin']
+            except:
+                pass
             if j != 0:
                 break
             else:
@@ -73,9 +78,10 @@ def main_():
         print(j)
         time.sleep(0.5)
      #   win32gui.ShowWindow(hwnd_nm, win32con.SW_SHOWMINIMIZED)
-        print(111111111111111111111111111111111111111111111)
+        print('first check')
         time.sleep(1)
 
+        #发送请求确定切换things成功
         hactive(hwnd_nb)
 
         for hwnd in get_hwnd_child(hwnd_nb):
@@ -100,16 +106,21 @@ def main_():
                 win32gui.PostMessage(handle_qdqd, win32con.BM_CLICK, 0, 0)
                 time.sleep(0.5)
         time.sleep(1)
-        print(22222222222222222222222222222222222222222222222222222)
+        print('change thing over')
 
+        #再次点击牛魔按钮
         hactive(hwnd_nm)
         win32gui.ShowWindow(hwnd_nm, win32con.SW_RESTORE)
         time.sleep(0.5)
         nmclick(hwnd_nm)
+        time.sleep(5)
 		
-
+        #确认IP切换成功，不成功再次点击按钮
         while True:
-            k = json.loads(requests.get('http://httpbin.org/ip').text)['origin']
+            try:
+                k = json.loads(requests.get('http://httpbin.org/ip').text)['origin']
+            except:
+                pass
             if k != j and k != 0:
                 break
             else:
@@ -122,9 +133,10 @@ def main_():
         time.sleep(0.5)
 
     #    win32gui.ShowWindow(hwnd_nm, win32con.SW_SHOWMINIMIZED)
-        print(3333333333333333333333333333333333333333333333333333)
-        time.sleep(10)
+        print('change IP over')
+        time.sleep(5)
 
+        #启动按键精灵的F10开始脚本
         hactive(hwnd_ajjl)
         print(hwnd_ajjl)
         win32gui.ShowWindow(hwnd_ajjl, win32con.SW_RESTORE)
