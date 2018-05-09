@@ -37,6 +37,14 @@ def main_():
         except:
             return False
 
+    def get_out_ip():
+        url = r'http://2017.ip138.com/ic.asp'
+        r = requests.get(url)
+        txt = r.text
+        ip = txt[txt.find("[") + 1: txt.find("]")]
+        print('ip:' + ip)
+        return ip
+
 
     hwnd_nb = find_hwnd("#32770", "牛B硬件信息修改大师")
     hwnd_nm = find_hwnd("Qt5QWindowIcon", "MainWindow")
@@ -67,7 +75,7 @@ def main_():
 
         while True:
             try:
-                j = json.loads(requests.get('http://httpbin.org/ip').text)['origin']
+                j = get_out_ip()
             except:
                 pass
             if j != 0:
@@ -118,7 +126,7 @@ def main_():
         #确认IP切换成功，不成功再次点击按钮
         while True:
             try:
-                k = json.loads(requests.get('http://httpbin.org/ip').text)['origin']
+                k = get_out_ip()
             except:
                 pass
             if k != j and k != 0:
